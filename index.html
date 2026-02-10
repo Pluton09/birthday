@@ -9,13 +9,11 @@
 
 <body>
 
-<button id="playMusic">🎵 Putar Musik</button>
-<audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+  <!-- Floating Music Button -->
+  <button id="musicToggle">🔊</button>
 
-  <!-- Musik -->
-  <audio autoplay loop>
+  <!-- Audio -->
+  <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
@@ -30,16 +28,15 @@
   <section class="gallery">
     <h2>Kenangan Kita 📸</h2>
     <div class="slider">
-      <div class="slides">
-        <img src="image/foto1.jpeg" alt="Kenangan 1">
-        <img src="image/foto2.jpeg" alt="Kenangan 2">
-        <img src="image/foto3.jpeg" alt="Kenangan 3">
-        <img src="image/foto4.jpeg" alt="Kenangan 4">
-        <img src="image/foto5.jpeg" alt="Kenangan 5">
-        <img src="image/foto6.jpeg" alt="Kenangan 6">
-        <img src="image/foto7.jpeg" alt="Kenangan 7">
-      </div>
-    </div>
+     <div class="slides">
+    <img src="image/foto1.jpeg" alt="Kenangan 1">
+    <img src="image/foto2.jpeg" alt="Kenangan 2">
+    <img src="image/foto3.jpeg" alt="Kenangan 3">
+    <img src="image/foto4.jpeg" alt="Kenangan 4">
+    <img src="image/foto5.jpeg" alt="Kenangan 5">
+    <img src="image/foto6.jpeg" alt="Kenangan 6">
+    <img src="image/foto7.jpeg" alt="Kenangan 7">
+</div>
   </section>
 
   <!-- Surat -->
@@ -47,15 +44,15 @@
     <h2>Untuk Kamu 💌</h2>
     <p>
       Selamat ulang tahun ya sayang.<br>
-      Terima kasih sudah hadir di hidup aku.<br>
+      Maaf Aku Cuman Bisa Bikin Ini.<br>
       Semoga semua hal baik selalu datang ke kamu.<br>
-      Aku bangga punya kamu 🤍
+      Kado Nya Menyusul yah Sayangg 🤍
     </p>
   </section>
 
   <!-- Penutup -->
   <footer>
-    <p>I Love You ♡</p>
+    <p>luvv uuu >< ♡</p>
   </footer>
 
   <!-- Confetti -->
@@ -67,17 +64,52 @@
       origin: { y: 0.6 }
     });
   </script>
-  
+
+  <!-- Music Logic -->
   <script>
-  const btn = document.getElementById("playMusic");
-  const music = document.getElementById("bgMusic");
+    const music = document.getElementById("bgMusic");
+    const toggleBtn = document.getElementById("musicToggle");
 
-  btn.addEventListener("click", () => {
-    music.play();
-    btn.style.display = "none";
-  });
-</script>
+    let isPlaying = false;
+    let fadeInterval;
 
+    function fadeInMusic() {
+      music.volume = 0;
+      music.play();
+      fadeInterval = setInterval(() => {
+        if (music.volume < 0.95) {
+          music.volume += 0.05;
+        } else {
+          music.volume = 1;
+          clearInterval(fadeInterval);
+        }
+      }, 200);
+    }
+
+    function firstUserInteraction() {
+      if (!isPlaying) {
+        fadeInMusic();
+        isPlaying = true;
+        toggleBtn.style.display = "block";
+      }
+      document.removeEventListener("click", firstUserInteraction);
+      document.removeEventListener("touchstart", firstUserInteraction);
+    }
+
+    document.addEventListener("click", firstUserInteraction);
+    document.addEventListener("touchstart", firstUserInteraction);
+
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (music.paused) {
+        music.play();
+        toggleBtn.textContent = "🔊";
+      } else {
+        music.pause();
+        toggleBtn.textContent = "🔈";
+      }
+    });
+  </script>
 
 </body>
 </html>
