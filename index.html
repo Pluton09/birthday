@@ -9,6 +9,11 @@
 
 <body>
 
+<button id="playMusic">🎵 Putar Musik</button>
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
   <!-- Musik -->
   <audio autoplay loop>
     <source src="music.mp3" type="audio/mpeg">
@@ -62,6 +67,17 @@
       origin: { y: 0.6 }
     });
   </script>
+  
+  <script>
+  const btn = document.getElementById("playMusic");
+  const music = document.getElementById("bgMusic");
+
+  btn.addEventListener("click", () => {
+    music.play();
+    btn.style.display = "none";
+  });
+</script>
+
 
 </body>
 </html>
